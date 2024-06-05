@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using myMinimalApiTemplate.Data;
 using myMinimalApiTemplate.Models;
@@ -26,7 +27,7 @@ public class NameRouter : BaseRouter
             .Produces<List<NameDTO>>()
             .Produces(404)
             .WithName("GetNames")
-            .RequireAuthorization("GetNamesClaim");
+            .RequireAuthorization("GetNamesOrAdminClaim");
 
 
         app.MapGet($"/{UrlFragment}/{{uuid}}", (string uuid) => GetName(uuid))
@@ -39,7 +40,8 @@ public class NameRouter : BaseRouter
            .WithTags(TagName)
            .Produces(200)
            .Produces(400)
-           .WithName("CreateName");
+           .WithName("CreateName")
+           .RequireAuthorization("CreateName");
 
     }
 

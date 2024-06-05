@@ -87,11 +87,18 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization( options => 
 {
-
     options.AddPolicy("GetNamesClaim", policy => policy.RequireClaim("GetNames"));
+    options.AddPolicy("CreateNameClaim", policy => policy.RequireClaim("CreateName"));
+    options.AddPolicy("AdminClaim", policy => policy.RequireClaim("Admin"));
+    
+    options.AddPolicy("GetNamesOrAdminClaim", policy => policy.RequireAssertion(context => {
+        bool isGetName = context.User.HasClaim( c => c.Type == "GetNames");
+        bool isAdmin = context.User.HasClaim( c => c.Type == "Admin");
+        return isGetName || isAdmin;
+    }) );
+                                                   
 
 } );
-
 
 
 var app = builder.Build();

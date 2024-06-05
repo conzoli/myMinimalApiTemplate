@@ -111,7 +111,7 @@ public class SecurityManager
             case "johnk":
                  asToken.Claims.Add( new AppUserClaim(){
                     UserId = asToken.User.userId,
-                    ClaimType = "GetName",
+                    ClaimType = "Admin",
                     ClaimValue = "true"
                 } );
             break;
@@ -139,6 +139,7 @@ public class SecurityManager
                     SecurityAlgorithms.HmacSha512Signature),
             //add claims
             Subject = new ClaimsIdentity(claims)
+            
 
         };
 
