@@ -135,7 +135,7 @@ public class SecurityManager
             Issuer = "http://localhost:5801",
             Audience = "myMinimalApiTemplate",
             SigningCredentials = new SigningCredentials
-                    (new SymmetricSecurityKey(Encoding.ASCII.GetBytes("Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011")), 
+                    (new SymmetricSecurityKey(Encoding.ASCII.GetBytes(MySettings.Key)), 
                     SecurityAlgorithms.HmacSha512Signature),
             //add claims
             Subject = new ClaimsIdentity(claims)

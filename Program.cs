@@ -1,8 +1,10 @@
+using System.Reflection.Metadata;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.VisualBasic;
+using myMinimalApiTemplate;
 using myMinimalApiTemplate.Data;
 using myMinimalApiTemplate.Data.Sqlite;
 using myMinimalApiTemplate.Models;
@@ -10,6 +12,9 @@ using myMinimalApiTemplate.Routers;
 using myMinimalApiTemplate.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//read appsettings and store in MySettings
+MySettings.Key = builder.Configuration["Jwt:Key"] ?? string.Empty;
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -56,6 +61,8 @@ builder.Services.AddCors(options =>
          });
 });
 
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -69,7 +76,7 @@ builder.Services.AddAuthentication(options =>
         {
             ValidIssuer = "http://localhost:5801",
             ValidAudience = "myMinimalApiTemplate",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011Supder!Dupper#Key123@1234567891011")),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(MySettings.Key)),
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
