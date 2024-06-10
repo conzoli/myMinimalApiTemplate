@@ -21,7 +21,7 @@ public class NameRouter : BaseRouter
 
     public override void AddRoutes(WebApplication app)
     {
-        app.MapGet($"/{UrlFragment}", () => GetNames())
+        app.MapGet($"/{UrlFragment}", async () => await GetNamesAsync())
             .WithTags(TagName)
             .Produces(200)
             .Produces<List<NameDTO>>()
@@ -42,6 +42,19 @@ public class NameRouter : BaseRouter
            .Produces(400)
            .WithName("CreateName")
            .RequireAuthorization("CreateName");
+
+    }
+
+
+    protected virtual async Task<IResult> GetNamesAsync(){
+
+        List<NameDTO> nameDtoList = [];
+
+        var names = await _nameRepo.GetNamesAsync();
+
+        names.ToList().ForEach( n => {  nameDtoList.Add(n.ToNameDTO()); } );
+
+        return Results.Ok(nameDtoList);
 
     }
 
@@ -75,8 +88,6 @@ public class NameRouter : BaseRouter
         return Results.Ok(Name.ToNameDTO());
 
     }
-
-
 
     protected virtual IResult PostName(NameDTO nameDto)
     {
