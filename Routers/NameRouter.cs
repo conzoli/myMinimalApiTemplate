@@ -14,8 +14,8 @@ public class NameRouter : BaseRouter
 
     public NameRouter(INameRepository nameRepo)
     {
-        UrlFragment = "api/Name";
-        TagName = "Name";
+        UrlFragment = "api/Names";
+        TagName = "Names";
         _nameRepo = nameRepo;
     }
 
@@ -30,13 +30,13 @@ public class NameRouter : BaseRouter
             .RequireAuthorization("GetNamesOrAdminClaim");
 
 
-        app.MapGet($"/{UrlFragment}/{{uuid}}", (string uuid) => GetName(uuid))
+        app.MapGet($"/{UrlFragment}/{{uuid}}", (string uuid) => GetNames(uuid))
              .WithTags(TagName)
              .Produces(200)
              .WithName("GetName");
 
 
-        app.MapPost($"/{UrlFragment}", ([FromBody] NameDTO name) => PostName(name))
+        app.MapPost($"/{UrlFragment}", ([FromBody] NameDTO name) => PostNames(name))
            .WithTags(TagName)
            .Produces(200)
            .Produces(400)
@@ -75,7 +75,7 @@ public class NameRouter : BaseRouter
 
     }
 
-    protected virtual IResult GetName(string uuid)
+    protected virtual IResult GetNames(string uuid)
     {
 
         var Name = _nameRepo.GetNameByUuid(new Guid(uuid));
@@ -89,7 +89,7 @@ public class NameRouter : BaseRouter
 
     }
 
-    protected virtual IResult PostName(NameDTO nameDto)
+    protected virtual IResult PostNames(NameDTO nameDto)
     {
 
         var newUuid = Guid.NewGuid();
