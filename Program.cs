@@ -44,6 +44,7 @@ builder.Services.AddSwaggerGen(options =>
 // register routers
 builder.Services.AddScoped<BaseRouter, NameRouter>();
 builder.Services.AddScoped<BaseRouter, SecurityTestRouter>();
+builder.Services.AddScoped<BaseRouter, ErrorRouter>();
 
 //register other Services:
 builder.Services.AddTransient<IHelloService, HelloService>();
@@ -108,6 +109,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler("/Error");
 
 app.UseHttpsRedirection();
 

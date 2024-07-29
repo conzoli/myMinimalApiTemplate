@@ -14,7 +14,7 @@ public class SqLiteBaseRepository
 
     public static SQLiteConnection DataConnection()
     {
-        return new SQLiteConnection("Data Source=" + DbFile);
+        return new SQLiteConnection("Data Source=" + DbFile + ";PRAGMA journal_mode=WAL;");
     }
 
 }

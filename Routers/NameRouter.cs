@@ -43,6 +43,9 @@ public class NameRouter : BaseRouter
            .WithName("CreateName")
            .RequireAuthorization("CreateName");
 
+
+        app.MapGet("/NameError", ( ) => { throw new Exception("Test Error"); });
+
     }
 
 
